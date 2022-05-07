@@ -1,5 +1,5 @@
 <?php
-
+       //cargamos el script functions
        require_once 'lib/functions.php';
        
         $apiURL="http://api.nobelprize.org/2.1/nobelPrizes";              
