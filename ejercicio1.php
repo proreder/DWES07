@@ -8,7 +8,7 @@
 
         $result=get("https://api.nobelprize.org/2.1/nobelPrizes",["nobelPrizeYear"=>'1964']);
         
-        d($result);
+//        d($result);
     
 ?>
 <!DOCTYPE html>
@@ -88,16 +88,19 @@
                     echo "<td>{$nominado['awardYear']}</td>";
                     echo "<td>{$nominado['category']['en']}</td>";
                         $laureates=$nominado['laureates'];
+//                        d($laureates);
+                        echo "<td>";
                         foreach($laureates as $laureate){
-                            echo "<td>";
-                            
-                                
-                                 echo $laureate['fullName']['en'];
-                                 echo "<br>";
-                             
-                            echo "</td>";
-                            echo "<td>{$laureate['motivation']['en']}</td>";
-                        }    
+                            //d($laureate);
+                            for($i=0;$i<count($laureates);$i++){
+    //                        foreach($laureates as $laureate){
+                              echo $laureates[$i]['fullName']['en'];
+                              echo "<br>";
+                            }
+                        }
+                        echo "</td>";
+                        echo "<td>{$laureate['motivation']['en']}</td>";
+                           
                         
 //                    echo "<td>{$nominado['fullName']['en']}</td>";
 //                    echo "<td>{$nominado['motivation']['en']}</td>";
