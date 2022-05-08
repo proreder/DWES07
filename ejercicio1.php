@@ -17,7 +17,24 @@
         <meta charset="utf-8"/>
         <title>Título de la página</title>
         <style type="text/css">
-            
+           table tbody tr:nth-child(odd) {
+            background: #fff5e0;
+            }
+            table tbody tr:nth-child(even) {
+                    background: #fdf8ef;
+            }
+            table thead {
+              background: #444;
+              color: #fff;
+              font-size: 18px;
+            }
+            table {
+              border-collapse: collapse;
+              width: 100%;
+            } 
+            table td{
+                border : solid 1px black;
+            }
         </style>
         <script type="text/javascript">
       	  
@@ -54,12 +71,13 @@
                 echo " </thead>";
                 echo " <tbody>";
                 echo "   <tr>";
-                foreach ($nominados as $registro){
+                foreach ($nominados as $nominado){
+                    d($nominado);
                     echo "   <tr>";
-                    echo "<td>{$registro['awardYear']}</td>";
-                    echo "<td>{$registro['category']['en']}</td>";
-                    echo "<td>{$registro['fullName']['en']}</td>";
-                    echo "<td>{$registro['motivation']['en']}</td>";
+                    echo "<td>{$nominado['awardYear']}</td>";
+                    echo "<td>{$nominado['category']['en']}</td>";
+//                    echo "<td>{$nominado['fullName']['en']}</td>";
+//                    echo "<td>{$nominado['motivation']['en']}</td>";
                    echo "   </tr>"; 
                 }
 
