@@ -6,7 +6,7 @@
        
         $apiURL="http://api.nobelprize.org/2.1/nobelPrizes";              
 
-        $result=get("https://api.nobelprize.org/2.1/nobelPrizes",["nobelPrizeYear"=>'1964']);
+        $result=get("https://api.nobelprize.org/2.1/nobelPrizes",["nobelPrizeYear"=>'1965']);
         
 //        d($result);
     
@@ -70,7 +70,7 @@
             if ($result){
                 $array =json_decode($result, true);
                 $nominados=$array['nobelPrizes'];
-                d($nominados);
+                
                 echo "<table>";
                 echo "<thead>";
                 echo "   <tr>";
@@ -91,13 +91,15 @@
 //                        d($laureates);
                         echo "<td>";
                         foreach($laureates as $laureate){
-                            //d($laureate);
-                            for($i=0;$i<count($laureates);$i++){
-    //                        foreach($laureates as $laureate){
-                              echo $laureates[$i]['fullName']['en'];
-                              echo "<br>";
+                            if (isset($laureate['fullName']['en'])){
+                                echo $laureate['fullName']['en'];
+                            }else{
+                                echo $laureate['orgName']['en'];
                             }
+//                            d($laureates);
+//                            d($laureate);
                         }
+                        
                         echo "</td>";
                         echo "<td>{$laureate['motivation']['en']}</td>";
                            
