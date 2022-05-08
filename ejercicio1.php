@@ -18,7 +18,7 @@
         <title>Título de la página</title>
         <style type="text/css">
            table tbody tr:nth-child(odd) {
-            background: #fff5e0;
+            background: #97FCFE;
             }
             table tbody tr:nth-child(even) {
                     background: #fdf8ef;
@@ -35,6 +35,17 @@
             table td{
                 border : solid 1px black;
             }
+            .anio {
+                width: 40px;
+                text-align: center;
+             }
+             .categoria{
+                width: 110px;
+             }
+             .largo{
+                width: 300px;
+             }
+             
         </style>
         <script type="text/javascript">
       	  
@@ -63,19 +74,31 @@
                 echo "<table>";
                 echo "<thead>";
                 echo "   <tr>";
-                echo "     <th>Año</th>";
-                echo "     <th>Categoría del Premio</th>";
-                echo "     <th>Nombre del Premiado</th>";
-                echo "     <th>Motivo de la nominación</th>";
+                echo "     <th class='anio'>Año</th>";
+                echo "     <th class='categoria'>Categoría</th>";
+                echo "     <th class='largo'>Nombre del Premiado</th>";
+                echo "     <th class='largo'>Motivo de la nominación</th>";
                 echo "   </tr>";
                 echo " </thead>";
                 echo " <tbody>";
                 echo "   <tr>";
                 foreach ($nominados as $nominado){
-                    d($nominado);
+                    //d($nominado);
                     echo "   <tr>";
                     echo "<td>{$nominado['awardYear']}</td>";
                     echo "<td>{$nominado['category']['en']}</td>";
+                        $laureates=$nominado['laureates'];
+                        foreach($laureates as $laureate){
+                            echo "<td>";
+                            
+                                
+                                 echo $laureate['fullName']['en'];
+                                 echo "<br>";
+                             
+                            echo "</td>";
+                            echo "<td>{$laureate['motivation']['en']}</td>";
+                        }    
+                        
 //                    echo "<td>{$nominado['fullName']['en']}</td>";
 //                    echo "<td>{$nominado['motivation']['en']}</td>";
                    echo "   </tr>"; 
