@@ -38,4 +38,25 @@ class Controlador {
         header('Content-type: application/json');        
         echo json_encode($result);
     }
+    
+    //se muestran las ciudades 
+    public function ciudades(Peticion $peticion){
+        $columna=$orden=false;
+        $ciudades=new CiudadesModel();
+        if($peticion->has('columna', 'orden')){
+            
+             $columna=$peticion->getString('columna', true);
+             $orden=$peticion->getString('orden', true);
+             echo "<br>Columna: ".$columna;
+             echo "<br>Orden: ".$orden;
+             $datosCiudades['ciudades']=$ciudades->ordenCiudades($columna, $orden);
+        }else{
+            $datosCiudades['ciudades']=$ciudades->listarCiudades($columna, $orden);
+        } 
+        
+        
+        
+        incluirDeFormaAislada(VISTAS.'/vistaCiudades.php', $datosCiudades);
+        
+    }
 }
