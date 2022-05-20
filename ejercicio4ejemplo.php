@@ -21,9 +21,9 @@ if ($peticion->has('a','b'))
     $datosRecibidos=post(SERVICE_URL.'?'.$httpQueryParams,$data,true);
 
     $result=json_decode($datosRecibidos);
-
-    if (isset($result->promedio))    
-        echo "El promedio de '$data->a' y '$data->b' es '$result->promedio'";
+    var_dump($result);
+    if (isset($result->ciudades))    
+        echo "El promedio de '$data->a' y '$data->b' es '$result->ciudades'";
     elseif (isset ($result->error))
         echo $result->error;
 }

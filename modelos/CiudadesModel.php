@@ -11,7 +11,7 @@ class CiudadesModel{
                 //Añadir dos más
   
     
-    public function listarCiudades($columna, $orden){
+    public function listarCiudades(){
       $datos=$this->ciudades;
       return $datos;
   }  
@@ -23,8 +23,7 @@ class CiudadesModel{
   
   public function ordenCiudades($key, $sort) {
     $array=$this->ciudades;
-    echo "<br>orden ".$sort;
-    echo "<br>key ".$key;
+    //especificamos la columna que queremos ordenar
     $_keys=array_column($array,$key);
     if($sort === 'SORT_ASC') array_multisort($_keys,SORT_ASC, $array);
     if($sort === 'SORT_DESC') array_multisort($_keys,SORT_DESC, $array);
