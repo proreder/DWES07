@@ -1,12 +1,54 @@
 <?php
 
+require_once 'lib/Peticion.php';
+require_once 'lib/functions.php';
+define ('SERVICE_URL','http://'.$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT'].
+    str_replace(basename(__FILE__),'ejercicio2.php',$_SERVER['REQUEST_URI'])
+);
+
+$peticion=new Peticion();
+$indice=0;
+if ($peticion->has('columna','orden'))
+{
+    $data=new stdClass();
+    
+    $data->columna=$peticion->getString('columna');
+    $data->orden=$peticion->getString('orden');
+
+    $httpQueryParams=http_build_query(['operacion'=>'ciudadesJSON']);
+
+    //Lanzamos una petición HTTP contra el servicio web implementado, el resultado recibido es en formato JSON
+    $datosRecibidos=post(SERVICE_URL.'?'.$httpQueryParams,$data,true);
+    
+    $result=json_decode($datosRecibidos);
+    $indice=count($result);
+//    var_dump($result);
+//    if (isset($result->ciudades)){
+//        $indice=count($result->ciudades);
+//      }elseif (isset ($result->error))
+//        
+//        echo $result->error;
+}else{
+    $data=new stdClass();
+    
+     $httpQueryParams=http_build_query(['operacion'=>'ciudadesJSON']);
+
+    //Lanzamos una petición HTTP contra el servicio web implementado, el resultado recibido es en formato JSON
+    $datosRecibidos=post(SERVICE_URL.'?'.$httpQueryParams,null,true);
+    
+    $result=json_decode($datosRecibidos);
+    $indice=count($result);
+//        echo "Indice: ".$indice;
+//    var_dump($result);
+//    if (isset($result->ciudades)){
+//        $indice=count($result->ciudades);
+//        echo "Indice: ".$indice;
+//      }elseif (isset ($result->error))
+//        
+//        echo $result->error;
+}
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8"/>
-        <title>Título de la página</title>
-        <style type="text/css">
+<style type="text/css">
            table tbody tr:nth-child(odd) {
             background: #97FCFE;
             }
@@ -69,13 +111,13 @@
                  <tbody>
                      <?php 
                         
-                        if(isset($ciudades)){
-                         foreach($ciudades as $ciudad){
+                        if($indice>0){
+                         for($i=0;$i<$indice;$i++){
                             echo "<tr>";
-                             echo "<td>{$ciudad['ciudad']}</td>";
-                             echo "<td class='izq'>{$ciudad['poblacion']}</td>";
-                             echo "<td class='izq'>{$ciudad['superficie']}Km&sup2;</td>";
-                             echo "<td class='izq'>{$ciudad['latitud']}&deg;,&nbsp;{$ciudad['longitud']}&deg;</td>";
+                             echo "<td>{$result[$i]->ciudad}</td>";
+                             echo "<td class='izq'>{$result[$i]->poblacion}</td>";
+                             echo "<td class='izq'>{$result[$i]->superficie}m&sup2;</td>";
+                             echo "<td class='izq'>{$result[$i]->latitud}&deg;,&nbsp;{$result[$i]->longitud}&deg;</td>";
                             echo "</tr>";
                          }
                      }
@@ -83,8 +125,8 @@
                  </tbody>
              </table>
         <br><br>        
-            <fieldset class="formulario">
-             <form action="ejercicio2.php?operacion=ciudades" method="post">
+<fieldset class="formulario">
+             <form action="ejercicio4.php" method="post">
                 <label for="columna">    
                     Seleccione la columna de ordenación: <select name="columna" id="columna">
                         <option value="poblacion">Población</option>
@@ -100,8 +142,4 @@
                 </label><br><br>
                 <input type="submit" value="¡Enviar!">
               </form>
-            </fieldset>
-        
-        </body>
-</html>
-       
+ </fieldset>

@@ -12,7 +12,7 @@
         $result=false;
         if($p->has('enviar')){
           $numero=$p->getInt('year');
-          echo "Numero: ".$numero;
+          
           if($numero<1900 || $numero > 2021){
               $error="El año tiene que estar comprendido entre 1901 y 2021.";
           }else{

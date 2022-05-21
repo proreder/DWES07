@@ -1,5 +1,5 @@
 <?php
-
+include_once 'lib/kint.phar';
 class Controlador {
 
     public function promedio(Peticion $peticion) {
@@ -69,8 +69,9 @@ class Controlador {
 //            var_dump($data);
             if ($data===null)
             {
-                $result['error']="No hay datos JSON";
+//                $result['error']="No hay datos JSON";
                 $result['ciudades']=$ciudades->listarCiudades();
+//                d($result);
             }
             else if (isset($data->columna) && isset($data->orden))
             {
@@ -83,8 +84,13 @@ class Controlador {
         {
             $result['error']="Error: No hay datos JSON";
         }
-        header('Content-type: application/json');        
-        echo json_encode($result);
+        header('Content-type: application/json');
+        if(isset($result['error'])){
+            echo json_encode($result['error']);
+        }else{
+            echo json_encode($result['ciudades']);
+        }
+        
         
     }
 }

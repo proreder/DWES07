@@ -18,20 +18,20 @@ class CiudadesModel{
   /*
    * ordena el array $ciudades
    * @param $key string para la ordenacion por indice 'poblacion' o 'superficie'
-   * @param @orden strin que indica el orden 'SORT_DESC' o 'SORT_ASC'
+   * @param @orden string que indica el orden 'desc' o 'asc'
    */  
   
   public function ordenCiudades($key, $sort) {
     $array=$this->ciudades;
     //especificamos la columna que queremos ordenar
-    $_keys=array_column($array,$key);
-    if($sort === 'SORT_ASC') array_multisort($_keys,SORT_ASC, $array);
-    if($sort === 'SORT_DESC') array_multisort($_keys,SORT_DESC, $array);
+    if($key=="superficie" || $key=="poblacion"){
+        $_keys=array_column($array,$key);
+        if($sort === 'asc') array_multisort($_keys,SORT_ASC, $array);
+        if($sort === 'desc') array_multisort($_keys,SORT_DESC, $array);
+    }
+    //$array por defecto es el array ciudades sin ordenar
     return $array;
-//    foreach($array as $ciudad){
-//        echo $ciudad['ciudad']."-".$ciudad['poblacion']."-".$ciudad['superficie'];
-//        echo"<br>";
-//    }
+
   }
         
 }
