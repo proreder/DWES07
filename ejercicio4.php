@@ -2,6 +2,7 @@
 
 require_once 'lib/Peticion.php';
 require_once 'lib/functions.php';
+include_once 'lib/kint.phar';
 define ('SERVICE_URL','http://'.$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT'].
     str_replace(basename(__FILE__),'ejercicio2.php',$_SERVER['REQUEST_URI'])
 );
@@ -21,7 +22,9 @@ if ($peticion->has('columna','orden'))
     $datosRecibidos=post(SERVICE_URL.'?'.$httpQueryParams,$data,true);
     
     $result=json_decode($datosRecibidos);
-    $indice=count($result);
+    if(!is_null($result)){
+        $indice=count($result);
+    }
 //    var_dump($result);
 //    if (isset($result->ciudades)){
 //        $indice=count($result->ciudades);
@@ -37,7 +40,14 @@ if ($peticion->has('columna','orden'))
     $datosRecibidos=post(SERVICE_URL.'?'.$httpQueryParams,null,true);
     
     $result=json_decode($datosRecibidos);
-    $indice=count($result);
+    
+    if(!is_null($result)){
+        $indice=count($result);
+    }
+    if(isset($result->error)){
+        echo "<br>Error: {$result->error}";
+    }
+    
 //        echo "Indice: ".$indice;
 //    var_dump($result);
 //    if (isset($result->ciudades)){
