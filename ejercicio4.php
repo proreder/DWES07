@@ -1,27 +1,45 @@
 <?php
 
-require_once 'lib/Peticion.php';
+//require_once 'lib/Peticion.php';
 require_once 'lib/functions.php';
-include_once 'lib/kint.phar';
+//include_once 'lib/kint.phar';
 define ('SERVICE_URL','http://'.$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT'].
     str_replace(basename(__FILE__),'ejercicio2.php',$_SERVER['REQUEST_URI'])
 );
 
-$peticion=new Peticion();
+//$peticion=new Peticion();
 $indice=0;
-if ($peticion->has('columna','orden'))
-{
-    $data=new stdClass();
+
+if($_SERVER['REQUEST_METHOD']=='POST') {
     
-    $data->columna=$peticion->getString('columna');
-    $data->orden=$peticion->getString('orden');
+    $data=new stdClass();
+    $_ordenPOST= filter_input(INPUT_POST, 'orden', FILTER_CALLBACK, ['options' => 'saneaCadena']);
+    
+    $_columnaPOST= filter_input(INPUT_POST, 'columna', FILTER_CALLBACK, ['options' => 'saneaCadena']);
+    
+    if(!empty($_ordenPOST) and !empty($_columnaPOST)){
+       
+       $data->orden=$_ordenPOST;
+       $data->columna=$_columnaPOST;
+    }
+    
+   
+//if ($peticion->has('columna','orden'))
+
+//    $data=new stdClass();
+//    
+//    $data->columna=$peticion->getString('columna');
+//    $data->orden=$peticion->getString('orden');
 
     $httpQueryParams=http_build_query(['operacion'=>'ciudadesJSON']);
-
+    
+    
     //Lanzamos una petición HTTP contra el servicio web implementado, el resultado recibido es en formato JSON
     $datosRecibidos=post(SERVICE_URL.'?'.$httpQueryParams,$data,true);
     
+    
     $result=json_decode($datosRecibidos);
+    
     if(!is_null($result)){
         $indice=count($result);
     }
@@ -32,7 +50,7 @@ if ($peticion->has('columna','orden'))
 //        
 //        echo $result->error;
 }else{
-    $data=new stdClass();
+//    $data=new stdClass();
     
      $httpQueryParams=http_build_query(['operacion'=>'ciudadesJSON']);
 
@@ -56,6 +74,13 @@ if ($peticion->has('columna','orden'))
 //      }elseif (isset ($result->error))
 //        
 //        echo $result->error;
+}
+
+function saneaCadena($cadena){
+    $_cadena=trim($cadena);
+    $_cadena= htmlspecialchars($_cadena);
+    $_cadena= stripcslashes($_cadena);
+    return $_cadena;
 }
 ?>
 <style type="text/css">
@@ -126,7 +151,7 @@ if ($peticion->has('columna','orden'))
                             echo "<tr>";
                              echo "<td>{$result[$i]->ciudad}</td>";
                              echo "<td class='izq'>{$result[$i]->poblacion}</td>";
-                             echo "<td class='izq'>{$result[$i]->superficie}m&sup2;</td>";
+                             echo "<td class='izq'>{$result[$i]->superficie}km&sup2;</td>";
                              echo "<td class='izq'>{$result[$i]->latitud}&deg;,&nbsp;{$result[$i]->longitud}&deg;</td>";
                             echo "</tr>";
                          }
